@@ -1,14 +1,15 @@
-import { ethers } from "hardhat";
-
-const BISWAP_ROUTER_ADDRESS = '0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8'
-const PANCAKESWAP_ROUTER_ADDRESS = '0x10ED43C718714eb63d5aA57B78B54704E256024E'
+import { ethers } from "hardhat"
 
 async function main() {
+  const Arbitrage = await ethers.getContractFactory('Arbitrage')
+  const arbitrage = await Arbitrage.deploy()
+  await arbitrage.deployed()
+  console.log(`Arbitrage contract was deployed to ${arbitrage.address}`)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+  console.error(error)
+  process.exitCode = 1
+})
