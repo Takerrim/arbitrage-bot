@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >= 0.8.18;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface IERC20Router {
@@ -15,24 +14,24 @@ interface IERC20Router {
   ) external returns (uint256[] memory amounts);
 }
 
-contract Arbitrage is Ownable {
+contract Arbitrage {
   // Any stablecoin, this asset needs to perform trades, that are independent of the native token
   IERC20 private assetToken;
 
   event Swaped(address[] path, uint256 amountOut);
 
-  function topupAssetBalance(address _tokenAddress) onlyOwner() external payable {
+  function topupAssetBalance(address _tokenAddress, uint256 tokenAmount) external payable {
     assetToken = IERC20(_tokenAddress);
     uint assetBalance = assetToken.balanceOf(msg.sender);
     require(assetBalance >= assetToken.allowance(msg.sender, msg.sender));
-    assetToken.transferFrom(msg.sender, address(this), msg.value);
+    assetToken.transferFrom(msg.sender, address(this), tokenAmount);
   }
 
-  function balance() onlyOwner() external view returns(uint256) {
+  function balance() external view returns(uint256) {
     return address(this).balance;
   }
 
-  function currentAssetBalance() onlyOwner() external view returns(uint256) {
+  function currentAssetBalance() external view returns(uint256) {
     return assetToken.balanceOf(address(this));
   }
 
@@ -46,13 +45,13 @@ contract Arbitrage is Ownable {
     return reversedPath;
   }
 
-  function estimateDualTrade(uint256 amountIn, address[] memory path, address router1Address, address router2Address) onlyOwner() external view returns(uint256) {
+  function estimateDualTrade(uint256 amountIn, address[] memory path, address router1Address, address router2Address) external view returns(uint256) {
     uint256[] memory amountsOut = IERC20Router(router1Address).getAmountsOut(amountIn, path);
     uint256[] memory returnedAmountsOut = IERC20Router(router2Address).getAmountsOut(amountsOut[amountsOut.length - 1], reversePath(path));
     return returnedAmountsOut[returnedAmountsOut.length - 1];
   }
 
-  function trade(uint256 amountIn, address[] memory path, address router1Address, address router2Address) onlyOwner() external payable  {
+  function trade(uint256 amountIn, address[] memory path, address router1Address, address router2Address) external payable  {
     IERC20Router router1 = IERC20Router(router1Address);
     IERC20Router router2 = IERC20Router(router2Address);
 
