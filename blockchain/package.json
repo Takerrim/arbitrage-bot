@@ -4,7 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "deploy": "yarn hardhat run --network bsc-testnet scripts/deploy.ts"
+    "deploy": "yarn hardhat run --network bsc-testnet scripts/deploy.ts",
+    "local-deploy": "yarn hardhat run --network localhost scripts/deploy.ts",
+    "test-arbitrage": "yarn hardhat run scripts/testArbitrage.ts",
+    "run-local-node": "yarn hardhat node"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
@@ -21,6 +24,7 @@
     "@types/mocha": ">=9.1.0",
     "@types/node": ">=12.0.0",
     "chai": "^4.2.0",
+    "dotenv": "^16.0.3",
     "ethers": "^5.4.7",
     "hardhat": "^2.14.0",
     "hardhat-gas-reporter": "^1.0.8",

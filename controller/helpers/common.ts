@@ -1,4 +1,5 @@
-import { PAIR_SEPARATOR } from "../constants";
+import { BigNumberish, ethers } from "ethers";
+import { DECIMALS, PAIR_SEPARATOR } from "../constants";
 import { currencies } from "../constants/currencies"
 import { TAddress } from "../types/common"
 
@@ -28,3 +29,7 @@ export const getTradeFee = (amount: string, feeInPercents: number) => (feeInPerc
 export const getTokenSymbolByAddress = (address: TAddress) => Object.entries(currencies).find(([, value]) => value === address)?.[0]
 
 export const formatPairString = (inputSymbol: string, outputSymbol: string) => `${inputSymbol}${PAIR_SEPARATOR}${outputSymbol}`
+
+export const formatUnits = (value: BigNumberish, decimals = DECIMALS) => ethers.utils.formatUnits(value.toString(), decimals)
+
+export const parseUnits = (value: BigNumberish) => ethers.utils.parseUnits(value.toString())

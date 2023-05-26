@@ -1,9 +1,16 @@
 import { HardhatUserConfig } from "hardhat/config"
 import "@nomicfoundation/hardhat-toolbox"
+import 'dotenv/config'
 
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
+  defaultNetwork: "hardhat",
   networks: {
+    hardhat: {
+      forking: {
+        url: `https://rpc.ankr.com/bsc/${process.env.ANKR_NODE_API_KEY}`,
+      },
+    },
     'bsc-testnet': {
       url: 'https://data-seed-prebsc-1-s1.binance.org:8545',
       chainId: 97,

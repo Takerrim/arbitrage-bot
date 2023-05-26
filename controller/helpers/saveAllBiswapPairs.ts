@@ -3,7 +3,7 @@ import { BiswapFactoryAbi__factory } from '../types/ethers-contracts'
 import { FACTORY_ADDRESS } from 'biswap-sdk'
 import { ethers } from 'ethers'
 import { bscScanApi } from '../services/BscScanApi'
-import { isJsonString } from './isJsonString'
+import { isJsonString } from './index'
 import { TJSONPair } from '../types/common'
 import path from 'path'
 
